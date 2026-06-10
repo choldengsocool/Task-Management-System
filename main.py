@@ -1,12 +1,13 @@
-from task_manager.task_utils import (
-    add_task,
-    mark_task_as_complete,
-    view_pending_tasks,
-    calculate_progress,
-    save_tasks,
-    load_tasks,
-    tasks,
-)
+from importlib import import_module
+
+_mod = import_module("task_manager.task_utils")
+add_task = getattr(_mod, "add_task")
+mark_task_as_complete = getattr(_mod, "mark_task_as_complete")
+view_pending_tasks = getattr(_mod, "view_pending_tasks")
+calculate_progress = getattr(_mod, "calculate_progress")
+tasks = getattr(_mod, "tasks")
+save_tasks = getattr(_mod, "save_tasks", None)
+load_tasks = getattr(_mod, "load_tasks", None)
 
 
 def print_tasks(all_tasks):

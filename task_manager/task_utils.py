@@ -11,15 +11,12 @@ from .validation import (
 tasks = []
 
 def add_task(title, description, due_date):
-    ok, msg = validate_task_title(title)
-    if not ok:
-        return False, msg
-    ok, msg = validate_task_description(description)
-    if not ok:
-        return False, msg
-    ok, msg = validate_due_date(due_date)
-    if not ok:
-        return False, msg
+    try:
+        validate_task_title(title)
+        validate_task_description(description)
+        validate_due_date(due_date)
+    except ValueError as e:
+        return False, str(e)
 
     task = {
         "title": title.strip(),
@@ -77,7 +74,7 @@ def view_pending_tasks(tasks=tasks):
 def calculate_progress(tasks=tasks):
     total = len(tasks)
     if total == 0:
-        return 0
+        return 0.0
     completed = sum(1 for t in tasks if t.get("completed", False))
-    progress = int((completed / total) * 100)
-    return progress
+    progress = (completed / total) * 100
+    return float(progress)
